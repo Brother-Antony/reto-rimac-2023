@@ -1,0 +1,40 @@
+@use "../util" as u;
+
+.summary {
+    padding: 64px 0 112px;
+
+    .content {
+        padding: 0 6rem;
+
+        &__info {
+            margin-top: 32px;
+        }
+
+        &__block {
+            margin-top: 48px;
+        }
+    }
+
+    @include u.breakpoint-down(medium) {
+        padding: 33px 0 80px;
+
+        .content {
+            padding: 0;
+
+            &__info {
+                text-align: center;
+                margin-top: 0;
+
+                h2 {
+                    font-size: 32px;
+                    line-height: 40px;
+                    letter-spacing: -.6px;
+                }
+
+                &__block {
+                    margin-top: 40px;
+                }
+            }
+        }
+    }
+}

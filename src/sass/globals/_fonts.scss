@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+$font-path: '../fonts/br-sonoma/';
+$font-map: (
+    "br-sonoma-black": ("font-family": "br-sonoma-black",
+        "src": "url('#{$font-path}BRSonoma-Black.otf') format('opentype')"
+    ),
+    "br-sonoma-bold": ("font-family": "br-sonoma-bold",
+        "src": "url('#{$font-path}BRSonoma-Bold.otf') format('opentype')"
+    ),
+    "br-sonoma-light": ("font-family": "br-sonoma-light",
+        "src": "url('#{$font-path}BRSonoma-Light.otf') format('opentype')"
+    ),
+    "br-sonoma-medium": ("font-family": "br-sonoma-medium",
+        "src": "url('#{$font-path}BRSonoma-Medium.otf') format('opentype')"
+    ),
+    "br-sonoma-regular": ("font-family": "br-sonoma-regular",
+        "src": "url('#{$font-path}BRSonoma-Regular.otf') format('opentype')"
+    )
+);
+
+:root {
+    --font-lato: 'Lato', sans-serif;
+    --font-reboto: 'Roboto', sans-serif;
+}
+
+@each $font-name, $font-properties in $font-map {
+    $font-var: map-get($font-properties, "src");
+    $property-name: map-get($font-properties, "font-family");
+
+    :root {
+        --#{$property-name}: #{$property-name};
+    }
+
+    @font-face {
+        font-family: #{$property-name};
+        src: #{$font-var};
+        font-display: swap;
+    }
+
+    .font-#{$font-name} {
+        font-family: '#{$property-name}', sans-serif;
+    }
+}

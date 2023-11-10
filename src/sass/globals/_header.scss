@@ -1,0 +1,44 @@
+@use "../util" as u;
+
+.header {
+    background-color: var(--white);
+    z-index: 11;
+
+    nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 56px;
+    }
+
+    &__right {
+        display: flex;
+        align-items: center;
+        gap: 23px;
+    }
+
+    @include u.breakpoint-up(medium) {
+        nav {
+            height: 64px;
+        }
+    }
+
+    @include u.breakpoint-down(small) {
+        &__logo img {
+            width: 65px;
+            min-width: 65px;
+        }
+    }
+}
+
+.header-login {
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 11;
+
+    .header {
+        background-color: inherit;
+    }
+}

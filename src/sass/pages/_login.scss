@@ -1,0 +1,109 @@
+@use "../util" as u;
+
+.login {
+    padding: 7rem 0 6rem;
+    display: grid;
+    place-items: center;
+    min-height: calc(100vh - 106px);
+    background-color: var(--gray10);
+    overflow: hidden;
+
+    .container {
+        display: flex;
+        align-items: center;
+    }
+
+    &__left {
+        width: 100%;
+        max-width: 480px;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    &__right {
+        width: 100%;
+        max-width: 352px;
+        margin-left: 128px;
+
+        .info {
+            margin-top: 16px;
+        }
+    }
+
+    .block-btn {
+        margin-top: 24px;
+    }
+    
+    .before-blur {
+        position: absolute;
+        left: 0;
+        z-index: -1;
+    }
+
+    .after-blur {
+        position: absolute;
+        right: 0;
+        z-index: -1;
+    }
+
+    @include u.breakpoint-down(large) {
+        &__right {
+            margin-left: 70px;
+        }
+    }
+
+    @include u.breakpoint-down(medium) {
+        padding: 4rem 0 96px;
+        min-height: calc(100vh - 153px);
+
+        .container {
+            align-items: initial;
+        }
+
+        &__right {
+            margin-left: 0;
+            max-width: 100%;
+
+            .info {
+                margin-top: 8px;
+            }
+
+            &--mobil {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                justify-content: space-between;
+
+                &--img {
+                    width: 136px;
+                    min-width: 136px;
+                    border-radius: 20px;
+                    overflow: hidden;
+                }
+
+                h1 {
+                    font-size: 28px;
+                    line-height: 36px;
+                }
+            }
+        }
+
+        .block-btn {
+            margin-top: 36px;
+        }
+
+        .btn {
+            width: 100%;
+        }
+
+        .before-blur {
+            left: 2rem;
+            bottom: -23rem;
+        }
+
+        .after-blur {
+            top: -30rem;
+            right: 2rem;
+        }
+    }
+}

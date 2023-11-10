@@ -1,0 +1,204 @@
+@use "../util" as u;
+
+.btn-close-popup {
+    position: relative;
+    
+    &::before {
+        content: "";
+        position: absolute;
+        width: 29px;
+        height: 29px;
+        border-radius: 6px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+    
+    &:hover {
+        color: #000;
+
+        &::before {
+            background-color: var(--white3);
+        }
+    }
+
+    &:active {
+        transform: scale(0.92);
+        color: #000;
+
+        &::before {
+            background-color: var(--white3);
+        }
+    }
+}
+
+.popup {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    &-overlay {
+        position: absolute;
+        z-index: 999;
+        inset: 0;
+        background-color: rgb(0, 0, 0, .51);
+    }
+
+    &-content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        background-color: var(--white);
+        box-shadow: 0 8px 28px rgb(0, 0, 0, .28);
+        max-width: 568px;
+        width: 100%;
+        max-height: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+        z-index: 999;
+    }
+
+    &-close {
+        display: flex;
+        align-items: center;
+        padding: 0 24px;
+        height: 64px;
+        min-height: 64px;
+        border-bottom: 1px solid var(--neutrals4);
+    }
+
+    &-description {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: auto;
+        padding: 30px 24px 36px;
+    }
+
+    .pmhipaijcd {
+        padding: 40px;
+        max-height: 100vh;
+        inset: 0;
+        position: absolute;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+    }
+
+    @include u.breakpoint-down(medium) {
+        .pmhipaijcd {
+            padding: 0;
+        }
+
+        &-content {
+            max-width: 100%;
+            height: 100%;
+            border-radius: initial;
+        }
+
+        .btn-close-popup {
+            &::before {
+                width: 64px;
+                height: 61px;
+                border-radius: 0 60px 60px 0;
+            }
+
+            &:active {
+                transform: none;
+            }
+        }
+
+        &-description {
+            padding-bottom: 40px;
+        }
+    }
+}
+
+.fxaijcmpz {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 24px 24px 12px;
+    position: relative;
+    z-index: 1;
+
+    @include u.breakpoint-up(large) {
+        margin: 40px 40px 20px;
+    }
+}
+
+.whmpt {
+    width: 100%;
+    height: calc(100% - 96px);
+    margin: 0 auto;
+    position: relative;
+    top: 96px;
+    user-select: none;
+
+    @include u.breakpoint-up(large) {
+        width: calc(100% - 192px);
+        height: calc(100% - 112px);
+        top: 112px;
+    }
+}
+
+.fmhpr {
+    flex: 1 1 100%;
+    max-height: calc(100% - 96px);
+    position: relative;
+
+    @include u.breakpoint-up(large) {
+        flex: 1 1 auto;
+        max-height: calc(100% - 112px);
+    }
+}
+
+.fxjcmlmr {
+    -webkit-box-pack: justify;
+    display: flex;
+    justify-content: space-between;
+    margin-left: calc(2% + 19px);
+    margin-right: calc(2% + 19px);
+}
+
+.peall {
+    pointer-events: all;
+}
+
+._1lotlmr {
+    position: relative;
+    outline: 0;
+    touch-action: manipulation;
+    display: inline-block;
+    outline: none;
+    color: var(--white);
+    outline: none;
+    border-radius: 50%;
+    background-color: transparent;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    transition: transform 0.25s ease;
+
+    &::before {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: transparent;
+        border: 2px solid rgba(227, 237, 243, 0.7);
+    }
+
+    &:hover::before {
+        background: #4a4a4a;
+    }
+
+    &:active {
+        transform: scale(0.92);
+    }
+}

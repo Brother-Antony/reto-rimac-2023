@@ -1,0 +1,40 @@
+@use "../util" as u;
+
+.footer {
+    margin-top: auto;
+    width: 100%;
+    height: 106px;
+    background-color: var(--gray1);
+    z-index: 10;
+
+    .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    @include u.breakpoint-down(medium) {
+        padding: 32px 0;
+        height: initial;
+        
+        .container {
+            flex-direction: column;
+        }
+        
+        &__left {
+            width: 100%;
+            border-bottom: 1px solid var(--gray80);
+            padding-bottom: 24px;
+        }
+
+        &__right {
+            padding-top: 24px;
+
+            > div {
+                font-size: 12px;
+                line-height: 20px;
+                letter-spacing: .1px;
+            }
+        }
+    }
+}
