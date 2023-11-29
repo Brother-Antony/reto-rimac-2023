@@ -3,13 +3,14 @@ import { Link, useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 
-import axios from 'axios'
-import Cookies from "universal-cookie"
+import Cookies from "js-cookie"
 
-import { calculateAge } from "../../hooks/useCalculateAge"
-import Header from "../../components/Header"
+import { plansRequest } from '../api/auth'
+import { useAuth } from '../context/AuthContext'
+import { calculateAge } from "../hooks/useCalculateAge"
 
-const cookies = new Cookies()
+import Header from "../components/Header"
+
 const imageMappings = {
   "Plan en Casa": "./IcHomeLight.svg",
   "Plan en Casa y Clínica": "./IcHospitalLight.svg",
@@ -18,8 +19,10 @@ const imageMappings = {
   "Plan en Casa + Fitness": "./IcHomeLight.svg",
 }
 
-const index = () => {
-  const navigate = useNavigate()
+const Plans = () => {
+  let navigate = useNavigate()
+
+  const { user, logout } = useAuth()
 
   const [selectedOption, setSelectedOption] = useState('')
   const [plans, setPlans] = useState([])
@@ -27,37 +30,38 @@ const index = () => {
   const [priceParaMi, setPriceParaMi] = useState({})
 
   useEffect(() => {
-    if (!cookies.get('documentType') || !cookies.get('documentNumber') || !cookies.get('phoneNumber')) {
-      navigate('/')
-    } else {
-      const userAge = calculateAge(cookies.get('documentBirthDay'))
+    document.body.style.overflow = ''
+    const choosePlan = async () => {
+      try {
+        const res = await plansRequest()
+        const precioOriginalParaMi = {}
+        const userAge = calculateAge(user.birthDay)
+        const filteredPlans = res.data.list.filter((plan) => plan.age >= userAge)
 
-      if (selectedOption === 'para-mi' || selectedOption === 'para-alguien-mas') {
-        axios.get('https://rimac-front-end-challenge.netlify.app/api/plans.json').then((response) => {
-          const precioOriginalParaMi = {}
-          const filteredPlans = response.data.list.filter((plan) => plan.age >= userAge)
-
-          filteredPlans.forEach((plan) => {
-            precioOriginalParaMi[plan.name] = plan.price;
-            if (selectedOption === 'para-alguien-mas') {
-              plan.price *= 0.95
-            }
-          })
-
-          setPriceParaMi(precioOriginalParaMi)
-          setPlans(filteredPlans)
-          setShowPlans(true)
-        }).catch((error) => {
-          console.error('Error fetching plans:', error)
+        filteredPlans.forEach((plan) => {
+          precioOriginalParaMi[plan.name] = plan.price
+          if (selectedOption === 'para-alguien-mas') {
+            plan.price *= 0.95
+          }
         })
+
+        setPriceParaMi(precioOriginalParaMi)
+        setPlans(filteredPlans)
+        setShowPlans(true)
+      } catch (error) {
+        console.error('Error fetching plans:', error)
       }
     }
-  }, [selectedOption, navigate])
+
+    if (selectedOption === 'para-mi' || selectedOption === 'para-alguien-mas') {
+      choosePlan(selectedOption)
+    }
+  }, [selectedOption, user])
 
   const handleSummary = (selectedPlan) => {
+    Cookies.set('plansNombre', selectedPlan.name)
+    Cookies.set('plansPrice', selectedPlan.price)
     navigate('/summary')
-    cookies.set('plansNombre', selectedPlan.name)
-    cookies.set('plansPrice', selectedPlan.price)
   }
 
   return (
@@ -96,7 +100,7 @@ const index = () => {
       <div className="plan">
         <div className='container'>
           <div className='content'>
-            <Link to="/" className='inline-flex items-center hide-for-mobile hover:underline'>
+            <Link to="/" onClick={() => logout()} className='inline-flex items-center hide-for-mobile hover:underline decoration-[var(--blueberry600)]'>
               <div className="border-2 border-[var(--blueberry600)] rounded-full w-[20px] min-w-[20px] h-[20px] grid place-content-center text-[8px] text-[var(--blueberry600)]">
                 <FontAwesomeIcon icon={faChevronLeft} />
               </div>
@@ -106,7 +110,7 @@ const index = () => {
 
             <div className="content__info">
               <div className='w-full max-w-[544px] ml-auto mr-auto'>
-                <h2 className="font-bold text-[40px] tracking-[-.6px] leading-[48px]">{cookies.get('documentName')} ¿Para quién deseas cotizar?</h2>
+                <h2 className="font-bold text-[40px] tracking-[-.6px] leading-[48px]">{user.name} ¿Para quién deseas cotizar?</h2>
                 <h3 className='text-[16px] tracking-[.1px] leading-7 text-[var(--neutrals7)] mt-[8px]'>Selecciona la opción que se ajuste más a tus necesidades.</h3>
               </div>
             </div>
@@ -183,4 +187,4 @@ const index = () => {
   )
 }
 
-export default index
+export default Plans

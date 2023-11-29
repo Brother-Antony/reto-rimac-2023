@@ -9,7 +9,7 @@ const useEscapeKey = (callback) => {
     }
 
     const handlePopstate = () => {
-      console.log("first")
+      console.log("delete")
       callback()
     }
 

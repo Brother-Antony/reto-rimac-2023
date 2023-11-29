@@ -3,20 +3,28 @@ import { Link, useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 
-import Cookies from "universal-cookie"
+import Cookies from "js-cookie"
 
-import Header from "../../components/Header"
+import { useAuth } from '../context/AuthContext'
 
-const cookies = new Cookies()
+import Header from "../components/Header"
 
-const index = () => {
-    const navigate = useNavigate()
+const Summary = () => {
+    let navigate = useNavigate()
+    
+    const { user } = useAuth()
 
     useEffect(() => {
-        if (!cookies.get('documentLastName') || !cookies.get('documentType') || !cookies.get('documentNumber') || !cookies.get('phoneNumber') || !cookies.get('plansNombre') || !cookies.get('plansPrice')) {
+        document.body.style.overflow = ''
+        if (!Cookies.get('plansNombre') || !Cookies.get('plansPrice')) {
             navigate('/plans')
         }
     }, [navigate])
+
+    const handleLogoutSummary = () => {
+        Cookies.remove('plansNombre')
+        Cookies.remove('plansPrice')
+    }
 
     return (
         <>
@@ -38,7 +46,7 @@ const index = () => {
                     </div>
 
                     <div className="hide-for-desktop flex items-center w-full">
-                        <Link to="/plans" className="border-2 border-[var(--blueberry600)] rounded-full w-[24px] min-w-[24px] h-[24px] grid place-content-center text-[8px] text-[var(--blueberry600)]">
+                        <Link to="/plans" onClick={handleLogoutSummary} className="border-2 border-[var(--blueberry600)] rounded-full w-[24px] min-w-[24px] h-[24px] grid place-content-center text-[8px] text-[var(--blueberry600)]">
                             <FontAwesomeIcon icon={faChevronLeft} />
                         </Link>
 
@@ -54,7 +62,7 @@ const index = () => {
             <div className="summary">
                 <div className='container'>
                     <div className='content'>
-                        <Link to="/plans" className='inline-flex items-center hide-for-mobile hover:underline'>
+                        <Link to="/plans" onClick={handleLogoutSummary} className='inline-flex items-center hide-for-mobile hover:underline decoration-[var(--blueberry600)]'>
                             <div className="border-2 border-[var(--blueberry600)] rounded-full w-[20px] min-w-[20px] h-[20px] grid place-content-center text-[8px] text-[var(--blueberry600)]">
                                 <FontAwesomeIcon icon={faChevronLeft} />
                             </div>
@@ -70,18 +78,18 @@ const index = () => {
                             <div className='uppercase text-[var(--neutrals7)] text-[10px] leading-[16px] tracking-[.8px] font-black'>Precios calculados para:</div>
                             <div className='flex items-center gap-[12px] mt-[8px]'>
                                 <img src="./IcUsers.svg" alt="" />
-                                <div className='text-xl font-black tracking-[-.2px] text-[var(--neutrals7)]'>{cookies.get('documentLastName')}</div>
+                                <div className='text-xl font-black tracking-[-.2px] text-[var(--neutrals7)]'>{user.name}</div>
                             </div>
 
                             <div className="w-full h-[1px] bg-[var(--neutrals4)] my-[16px]"></div>
 
                             <div className='text-base font-black tracking-[.2px] text-[var(--neutrals7)] mt-[8px]'>Responsable de pago</div>
-                            <div className='text-[14px] leading-6 tracking-[.1px] mt-[4px] text-[var(--neutrals7)]'>{cookies.get('documentType')}: {cookies.get('documentNumber')}</div>
-                            <div className='text-[14px] leading-6 tracking-[.1px] mt-[4px] text-[var(--neutrals7)]'>Celular: {cookies.get('phoneNumber')}</div>
+                            <div className='text-[14px] leading-6 tracking-[.1px] mt-[4px] text-[var(--neutrals7)]'>{user.documentType}: {user.documentNumber}</div>
+                            <div className='text-[14px] leading-6 tracking-[.1px] mt-[4px] text-[var(--neutrals7)]'>Celular: {user.phoneNumber}</div>
 
                             <div className='text-base font-black tracking-[.2px] text-[var(--neutrals7)] mt-[16px]'>Plan elegido</div>
-                            <div className='text-[14px] leading-6 tracking-[.1px] mt-[4px] text-[var(--neutrals7)]'>{cookies.get('plansNombre')}</div>
-                            <div className='text-[14px] leading-6 tracking-[.1px] mt-[4px] text-[var(--neutrals7)]'>Costo del Plan: ${cookies.get('plansPrice')} al mes</div>
+                            <div className='text-[14px] leading-6 tracking-[.1px] mt-[4px] text-[var(--neutrals7)]'>{Cookies.get('plansNombre')}</div>
+                            <div className='text-[14px] leading-6 tracking-[.1px] mt-[4px] text-[var(--neutrals7)]'>Costo del Plan: ${Cookies.get('plansPrice')} al mes</div>
                         </div>
                     </div>
                 </div>
@@ -90,4 +98,4 @@ const index = () => {
     )
 }
 
-export default index
+export default Summary

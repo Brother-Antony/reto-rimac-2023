@@ -1,5 +1,12 @@
 # Proyecto de Prueba Técnica - FrontEnd
 
+**Datos de Prueba para el Inicio de Sesión:**
+
+- **Número de Documento (DNI):** 30216147
+- **Número de Celular:** 5130216147
+
+Utiliza estos datos para probar la funcionalidad de inicio de sesión durante el desarrollo y las pruebas de la aplicación.
+
 Bienvenido a la documentación de mi proyecto de prueba técnica para FrontEnd. Este proyecto implementa las vistas de Login, Plans, Summary y la página de error 404 (404 Not Found). Siguiendo el diseño proporcionado en Figma. A continuación, encontrarás detalles sobre las librerías y bibliotecas utilizadas, cómo se dividieron las tareas, cómo levantar el proyecto y otras notas importantes.
 
 ## Librerías y Bibliotecas Utilizadas
@@ -16,7 +23,9 @@ Bienvenido a la documentación de mi proyecto de prueba técnica para FrontEnd. 
 
 - **Axios**: Utilicé Axios para realizar peticiones a APIs externas. Esto permitió la integración de datos externos en la aplicación, como obtener información de planes y otras funcionalidades basadas en datos en tiempo real.
 
-- **universal-cookie**: Integré la biblioteca universal-cookie para gestionar las cookies en la aplicación. Esto permitió almacenar y gestionar datos importantes del usuario, como las credenciales de inicio de sesión y otras preferencias, de manera segura y eficiente.
+- **js-cookie**: Integré la biblioteca js-cookie para gestionar las cookies en la aplicación. Esto permitió almacenar y gestionar datos importantes del usuario, como las credenciales de inicio de sesión y otras preferencias, de manera segura y eficiente.
+
+- **React Context API**: Implementé el API de Contexto de React para gestionar el estado de autenticación en toda la aplicación.
 
 ## División de Tareas
 
@@ -49,6 +58,38 @@ He tenido en cuenta los siguientes aspectos clave de SEO:
 - **Sitemap XML**: Se ha generado un sitemap XML que enumera todas las páginas de la aplicación. Esto ayuda a los motores de búsqueda a rastrear e indexar todas las páginas de manera eficiente.
 
 La implementación del SEO es una parte crucial de garantizar que la aplicación sea visible y accesible para los usuarios en línea. Esto contribuye a atraer tráfico y aumentar la presencia en línea, lo que es beneficioso para cualquier proyecto web.
+
+## Autenticación con Token y Contexto
+
+### Implementación de Autenticación
+
+- **Tokens JWT**: Implementé un sistema de autenticación basado en tokens JSON Web Token (JWT). Cuando los usuarios inician sesión correctamente, reciben un token JWT que se utiliza para autenticar las solicitudes subsiguientes a las API protegidas.
+
+- **Seguridad del Token**: Aseguré la seguridad del token utilizando buenas prácticas, como la firma del token y la configuración de tiempos de expiración adecuados para garantizar que los tokens sean válidos solo durante un período limitado.
+
+### Contexto de Autenticación
+
+- **Contexto de React**: Utilicé el API de Contexto de React para gestionar el estado de autenticación en toda la aplicación. Esto permite que componentes secundarios accedan fácilmente al estado de autenticación sin necesidad de pasar propiedades manualmente.
+
+- **`useContext` Hook**: Implementé el `useContext` Hook para consumir el contexto de autenticación en componentes relevantes. Esto simplifica el acceso al estado de autenticación y permite realizar cambios dinámicamente en la interfaz de usuario en función del estado de autenticación.
+
+### Rutas Privadas
+
+- **React Router y Rutas Privadas**: Configuré rutas privadas utilizando React Router. Esto implica que ciertas rutas solo son accesibles para usuarios autenticados. Si un usuario intenta acceder a una ruta protegida sin autenticarse, se le redirige automáticamente a la página de inicio de sesión.
+
+- **Redirecciones Dinámicas**: Implementé redirecciones dinámicas en el componente de enrutador para asegurar un flujo de usuario fluido. Por ejemplo, si un usuario ya está autenticado e intenta acceder a la página de inicio de sesión, en lugar de mostrar la página de inicio de sesión, se le redirige a la página principal.
+
+### Cierre de Sesión
+
+- **Funcionalidad de Cierre de Sesión**: Implementé una funcionalidad de cierre de sesión que invalida el token almacenado y borra la información de autenticación del contexto. Esto asegura que los usuarios puedan cerrar sesión de manera segura y que la aplicación esté lista para autenticación posterior.
+
+### Documentación Adicional
+
+- **Cómo Obtener y Almacenar el Token**: Incluí información detallada sobre cómo se obtiene y almacena el token después del inicio de sesión. Esto podría incluir detalles sobre la respuesta de la API de inicio de sesión y cómo se maneja el token en el almacenamiento local.
+
+- **Protección de Rutas en el Lado del Cliente**: Aseguré que, además de la protección de rutas en el servidor, las rutas estén protegidas en el lado del cliente para una experiencia más eficiente y segura.
+
+- **Renovación Automática de Tokens**: Si implementé alguna lógica de renovación automática de tokens, es beneficioso documentar cómo funciona este proceso y cómo se mantiene la sesión del usuario activa.
 
 ## Cómo Levantar el Proyecto
 

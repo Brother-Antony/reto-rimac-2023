@@ -89,68 +89,6 @@ li {
     }
 }
 
-.before-blur {
-    > div {
-        width: 162px;
-        height: 166px;
-        border-radius: 50%;
-        background-color: var(--violet80);
-        filter: saturate(180%) blur(140px);
-        -webkit-filter: saturate(180%) blur(140px);
-
-        &:nth-child(1) {
-            transform: translate(-13rem, 16rem);
-            filter: saturate(180%) blur(150px);
-            -webkit-filter: saturate(180%) blur(150px);
-        }
-
-        &:nth-child(2) {
-            width: 270px;
-            height: 268px;
-            transform: translate(-20rem, 12rem);
-        }
-
-        &:nth-child(3) {
-            width: 184px;
-            height: 189px;
-            transform: translate(-9rem, 7rem);
-            filter: saturate(180%) blur(150px);
-            -webkit-filter: saturate(180%) blur(150px);
-        }
-    }
-}
-
-.after-blur {
-    > div {
-        width: 184px;
-        height: 189px;
-        border-radius: 50%;
-        background-color: var(--aqua100);
-        filter: saturate(180%) blur(140px);
-        -webkit-filter: saturate(180%) blur(140px);
-
-        &:nth-child(1) {
-            transform: translate(14rem, 4rem);
-            filter: saturate(180%) blur(170px);
-            -webkit-filter: saturate(180%) blur(170px);
-        }
-
-        &:nth-child(2) {
-            width: 270px;
-            height: 268px;
-            transform: translate(20rem, 0);
-            filter: saturate(180%) blur(120px);
-            -webkit-filter: saturate(180%) blur(120px);
-        }
-
-        &:nth-child(3) {
-            width: 184px;
-            height: 189px;
-            transform: translate(21rem, -4rem);
-        }
-    }
-}
-
 .stepperHorizontal {
     width: 100%;
     height: 56px;

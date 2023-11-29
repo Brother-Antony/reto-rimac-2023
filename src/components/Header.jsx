@@ -10,6 +10,7 @@ const Header = () => {
 
     useEscapeKey(() => {
         setShowPopup(false)
+        handleBodyOverflow(false)
     })
 
     const handleBodyOverflow = (isHidden) => document.body.style.overflow = isHidden ? "hidden" : ""
@@ -29,7 +30,7 @@ const Header = () => {
             <div className="header">
                 <nav className="container">
                     <div className="header__logo">
-                        <img src="./logo.svg" width="73" alt="logo rimac" />
+                        <img src="/logo.svg" width="73" className="select-none" alt="logo rimac" />
                     </div>
 
                     <div className="header__right">

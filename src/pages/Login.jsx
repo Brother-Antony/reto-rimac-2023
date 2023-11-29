@@ -3,15 +3,13 @@ import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
 
-import axios from 'axios'
-import Cookies from "universal-cookie"
+import { useAuth } from '../context/AuthContext'
 
-import useEscapeKey from '../../hooks/useEscapeKey'
-import Header from "../../components/Header"
-import Footer from '../../components/Footer'
-import Popup from '../../components/Popup'
+import useEscapeKey from '../hooks/useEscapeKey'
+import Header from "../components/Header"
+import Footer from '../components/Footer'
+import Popup from '../components/Popup'
 
-const cookies = new Cookies()
 const errorMessage = {
   document: '*El documento ingresado no es válido',
   phoneNumber: '*El celular ingresado no es válido',
@@ -19,8 +17,10 @@ const errorMessage = {
   acceptCommercialCommunications: 'Por favor, acepta la Política de Comunicaciones Comerciales.',
 }
 
-const index = () => {
-  const navigate = useNavigate()
+const Login = () => {
+  let navigate = useNavigate()
+  
+  const { signin, isAuthenticated, error, clearErrorUser } = useAuth()
 
   const [formData, setFormData] = useState({
     documentType: 'DNI',
@@ -37,23 +37,18 @@ const index = () => {
     acceptCommercialCommunications: '',
   })
   
-  const [documentMaxLength, setDocumentMaxLength] = useState(8)
-  const [userData, setUserData] = useState({})
   const [showPopup, setShowPopup] = useState(false)
+  const [documentMaxLength, setDocumentMaxLength] = useState(8)
+
+  useEffect(() => {
+    document.body.style.overflow = ''
+    if (isAuthenticated) navigate('/plans')
+  }, [isAuthenticated])
 
   useEscapeKey(() => {
     setShowPopup(false)
     handleBodyOverflow(false)
   })
-
-  useEffect(() => {
-    axios.get('https://rimac-front-end-challenge.netlify.app/api/user.json').then((response) => {
-      const userData = response.data
-      setUserData(userData)
-    }).catch((error) => {
-      console.error('Error al obtener datos del usuario:', error)
-    })
-  }, [navigate])
 
   const handleBodyOverflow = (isHidden) => document.body.style.overflow = isHidden ? "hidden" : ""
 
@@ -119,21 +114,17 @@ const index = () => {
     
     setFormData(newFormData)
     setErrors(newErrors)
+
+    if (error) {
+      clearErrorUser()
+    }
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
     if (validateForm()) {
-      console.log('Formulario enviado. Datos:', formData)
-  
-      cookies.set('documentType', formData.documentType)
-      cookies.set('documentNumber', formData.documentNumber)
-      cookies.set('phoneNumber', formData.phoneNumber)
-      cookies.set('documentName', userData.name)
-      cookies.set('documentBirthDay', userData.birthDay)
-      cookies.set('documentLastName', userData.lastName)
-      navigate('/plans')
+      signin(formData)
     }
   }
 
@@ -145,13 +136,7 @@ const index = () => {
 
       <section className='login'>
         <div className="container">
-          <div className='before-blur'>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-
-          <div className='login__left hide-for-mobile'><img src="./portada-login.png" alt="portada rimac" /></div>
+          <div className='login__left select-none hide-for-mobile'><img src="./portada-login.png" alt="portada rimac" /></div>
 
           <div className="login__right">
             <div className='login__right--mobil'>
@@ -167,10 +152,10 @@ const index = () => {
               <div className='hide-for-desktop login__right--mobil--img'><img src="./portada-login.png" alt="" /></div>
             </div>
 
-            <div className='w-full h-[1px] bg-[var(--gray30)] mt-[24px] hide-for-desktop'></div>
+            <div className='w-full h-[1px] bg-[var(--gray30)] mt-6 hide-for-desktop'></div>
 
-            <form onSubmit={handleSubmit} className="mt-[24px]">
-              <h2 className='font-br-sonoma-medium text-sm tracking-[.2px] mb-[24px] hide-for-desktop'>Tú eliges cuánto pagar. Ingresa tus datos, cotiza y recibe nuestra asesoría. 100% online.</h2>
+            <form onSubmit={handleSubmit} className="mt-6">
+              <h2 className='font-br-sonoma-medium text-sm tracking-[.2px] mb-6 hide-for-desktop'>Tú eliges cuánto pagar. Ingresa tus datos, cotiza y recibe nuestra asesoría. 100% online.</h2>
 
               <div className='inputSelect'>
                 <div className='inputSelect--select'>
@@ -198,9 +183,9 @@ const index = () => {
                   </label>
                 </div>
               </div>
-              {errors.document && <div className="text-[var(--red5)] text-[14px] leading-[16px] mt-2 mb-4">{errors.document}</div>}
+              {errors.document && <div className="text-[var(--red5)] text-[14px] leading-4 mt-2 mb-4">{errors.document}</div>}
 
-              <div className={`input__login mt-[16px] ${errors.phoneNumber ? 'error' : ''}`}>
+              <div className={`input__login mt-4 ${errors.phoneNumber ? 'error' : ''}`}>
                 <input
                   type='number'
                   id='cel'
@@ -214,9 +199,10 @@ const index = () => {
                   <div className="paragraph font-br-sonoma-regular">Celular</div>
                 </label>
               </div>
-              {errors.phoneNumber && <div className="text-[var(--red5)] text-[14px] leading-[16px] mt-2">{errors.phoneNumber}</div>}
+              {errors.phoneNumber && <div className="text-[var(--red5)] text-[14px] leading-4 mt-2">{errors.phoneNumber}</div>}
+              {error && <div className="text-[var(--red5)] text-[14px] leading-4 mt-4">{error}</div>}
 
-              <div className='mt-[24px]'>
+              <div className='mt-6'>
                 <label className={`check__label ${errors.acceptPrivacyPolicy ? 'error' : ''}`}>
                   <input
                     type='checkbox'
@@ -233,7 +219,7 @@ const index = () => {
                   <div className='paragraph font-br-sonoma-regular text-[12px] leading-[20px] tracking-[.1px] text-[#0A051E]'>Acepto la Política de Privacidad</div>
                 </label>
 
-                <label className={`check__label mt-[16px] ${errors.acceptCommercialCommunications ? 'error' : ''}`}>
+                <label className={`check__label mt-4 ${errors.acceptCommercialCommunications ? 'error' : ''}`}>
                   <input
                     type='checkbox'
                     name='acceptCommercialCommunications'
@@ -255,13 +241,12 @@ const index = () => {
               </div>
             </form>
           </div>
-
-          <div className="after-blur">
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
         </div>
+        
+        <img src="./blur-asset.png" className='absolute right-0 top-0 select-none hide-for-mobile' />
+        <img src="./blur-asset1.png" className='absolute right-0 top-0 select-none hide-for-desktop' />
+        <img src="./blur-asset-left.png" className='absolute left-0 bottom-0 select-none hide-for-mobile' />
+        <img src="./blur-asset-left2.png" className='absolute left-0 bottom-0 select-none hide-for-desktop' />
       </section>
 
       <Popup
@@ -279,4 +264,4 @@ const index = () => {
   )
 }
 
-export default index
+export default Login

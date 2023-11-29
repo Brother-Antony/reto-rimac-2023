@@ -1,6 +1,7 @@
 @use "../util" as u;
 
 .login {
+    position: relative;
     padding: 7rem 0 6rem;
     display: grid;
     place-items: center;
@@ -34,18 +35,6 @@
         margin-top: 24px;
     }
     
-    .before-blur {
-        position: absolute;
-        left: 0;
-        z-index: -1;
-    }
-
-    .after-blur {
-        position: absolute;
-        right: 0;
-        z-index: -1;
-    }
-
     @include u.breakpoint-down(large) {
         &__right {
             margin-left: 70px;
@@ -94,16 +83,6 @@
 
         .btn {
             width: 100%;
-        }
-
-        .before-blur {
-            left: 2rem;
-            bottom: -23rem;
-        }
-
-        .after-blur {
-            top: -30rem;
-            right: 2rem;
         }
     }
 }
