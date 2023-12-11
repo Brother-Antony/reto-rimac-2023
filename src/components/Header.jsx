@@ -1,16 +1,17 @@
 import React, { useState } from "react"
+import { CSSTransition } from "react-transition-group"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPhone } from "@fortawesome/free-solid-svg-icons"
 
+import { Popup } from "./Popup"
 import useEscapeKey from "../hooks/useEscapeKey"
-import Popup from "./Popup"
 
 const Header = () => {
     const [showPopup, setShowPopup] = useState(false)
 
     useEscapeKey(() => {
-        setShowPopup(false)
         handleBodyOverflow(false)
+        setShowPopup(false)
     })
 
     const handleBodyOverflow = (isHidden) => document.body.style.overflow = isHidden ? "hidden" : ""
@@ -20,9 +21,9 @@ const Header = () => {
         handleBodyOverflow(true)
     }
     
-    const handleClosePopup = () => {
-        setShowPopup(false)
+    const closePopup = () => {
         handleBodyOverflow(false)
+        setShowPopup(false)
     }
 
     return (
@@ -44,12 +45,21 @@ const Header = () => {
                 </nav>
             </div>
 
-            <Popup
-                title="Compra por este medio"
-                content={["Esta opción te permite comprar de manera segura y conveniente en línea. Descubre las ventajas y comienza tu experiencia de compra en nuestra plataforma."]}
-                show={showPopup}
-                onClose={handleClosePopup}
-            />
+            <CSSTransition
+                in={showPopup}
+                timeout={300}
+                classNames="message"
+                unmountOnExit
+            >
+                <Popup show={showPopup} onClose={closePopup}>
+                    <Popup.Header onClose={closePopup} closeButton>
+                        <Popup.Title>Compra por este medio</Popup.Title>
+                    </Popup.Header>
+                    <Popup.Body>
+                        <div className="text-[16px] tracking-[.1px] leading-7 text-[var(--neutrals7)]">Esta opción te permite comprar de manera segura y conveniente en línea. Descubre las ventajas y comienza tu experiencia de compra en nuestra plataforma.</div>
+                    </Popup.Body>
+                </Popup>
+            </CSSTransition>
         </>
     )
 }

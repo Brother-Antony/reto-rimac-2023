@@ -84,9 +84,9 @@ const Plans = () => {
           </div>
 
           <div className="hide-for-desktop flex items-center w-full">
-            <div className="border-2 border-[var(--neutrals5)] rounded-full w-[24px] min-w-[24px] h-[24px] grid place-content-center text-[8px] text-[var(--neutrals5)]">
+            <button type='button' onClick={() => logout()} className="border-2 border-[var(--blueberry600)] rounded-full w-[24px] min-w-[24px] h-[24px] grid place-content-center text-[8px] text-[var(--blueberry600)]">
               <FontAwesomeIcon icon={faChevronLeft} />
-            </div>
+            </button>
 
             <div className="flex items-center ml-[16px] w-full">
               <div className="text-[10px] tracking-[.8px] leading-4 mr-[16px] font-black whitespace-nowrap">PASO 1 DE 2</div>
@@ -100,13 +100,13 @@ const Plans = () => {
       <div className="plan">
         <div className='container'>
           <div className='content'>
-            <Link to="/" onClick={() => logout()} className='inline-flex items-center hide-for-mobile hover:underline decoration-[var(--blueberry600)]'>
+            <button type='button' onClick={() => logout()} className='inline-flex items-center hide-for-mobile hover:underline decoration-[var(--blueberry600)]'>
               <div className="border-2 border-[var(--blueberry600)] rounded-full w-[20px] min-w-[20px] h-[20px] grid place-content-center text-[8px] text-[var(--blueberry600)]">
                 <FontAwesomeIcon icon={faChevronLeft} />
               </div>
 
               <div className='text-[var(--blueberry600)] text-lg font-bold ml-[8px]'>Volver</div>
-            </Link>
+            </button>
 
             <div className="content__info">
               <div className='w-full max-w-[544px] ml-auto mr-auto'>
